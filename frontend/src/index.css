@@ -1,0 +1,403 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+  }
+  h1, h2, h3, h4 {
+    @apply font-heading font-semibold tracking-tight text-primary;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+  .section {
+    @apply py-16 md:py-24;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-white hover:bg-primary-600 focus-visible:ring-primary;
+  }
+  .btn-accent {
+    @apply btn bg-accent text-white hover:bg-accent-dark focus-visible:ring-accent;
+  }
+  .btn-outline {
+    @apply btn border-2 border-white/80 text-white hover:bg-white hover:text-primary;
+  }
+  .eyebrow {
+    @apply mb-3 inline-block text-xs font-semibold uppercase tracking-[0.2em] text-accent;
+  }
+
+    .nav-link {
+    @apply relative flex items-center gap-1 py-2 text-[0.9rem] font-medium text-white/85 transition-colors hover:text-white;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-[2px] w-full origin-left scale-x-0 bg-accent transition-transform duration-300;
+  }
+  .nav-link:hover::after,
+  .nav-link--active::after {
+    @apply scale-x-100;
+  }
+  .nav-link--active {
+    @apply text-white;
+  }
+}
+
+/* =====================================================
+   HERO
+   The photo + welder live on an invisible "stage" with
+   the photo's exact shape (16:9), so they always line up.
+   ===================================================== */
+.hero {
+  /* image geometry (only change if the photo's aspect ratio changes) */
+  --ratio: 1.7778;         /* photo width / height (16:9) */
+  --worker-cx: 0.7;        /* horizontal centre of the welder inside the photo */
+  --worker-cy: 0.54;       /* vertical centre of the welder inside the photo */
+
+  /* ---- DESKTOP / LANDSCAPE ---- */
+  --stage-w: min(calc(100svh * var(--ratio)), 100vw);  /* photo size */
+  --stage-h: calc(var(--stage-w) / var(--ratio));
+  --stage-top: calc((100svh - var(--stage-h)) / 2);
+  --stage-right: 0px;
+  --font-size: calc(var(--stage-w) * 0.042);           /* headline size */
+  --pad-x: clamp(1.5rem, 5vw, 7rem);                   /* text distance from left edge */
+
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(50% 60% at 30% 50%, rgba(20, 80, 150, 0.22), transparent 70%),
+    #030d1a;
+}
+
+/* ---------- image layers ---------- */
+.hero-stage {
+  position: absolute;
+  top: var(--stage-top);
+  right: var(--stage-right);
+  width: var(--stage-w);
+  height: var(--stage-h);
+  will-change: transform;
+}
+.hero-stage--bg {
+  z-index: 0;
+  /* soft feathered edges so the photo melts into the dark background */
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 55% 50%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 85% at 55% 50%, #000 58%, transparent 100%);
+}
+.hero-stage--bg::after {
+  /* darkens the bright smoke on the left so the white headline stays readable */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 13, 26, 0.72) 0%, rgba(3, 13, 26, 0.4) 40%, rgba(3, 13, 26, 0) 68%),
+    linear-gradient(180deg, rgba(3, 13, 26, 0.55) 0%, rgba(3, 13, 26, 0) 28%, rgba(3, 13, 26, 0) 72%, rgba(3, 13, 26, 0.6) 100%);
+}
+.hero-stage--arc { z-index: 1; pointer-events: none; }
+.hero-stage--cutout { z-index: 3; pointer-events: none; }
+
+.hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- text block ---------- */
+.hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  padding: 4.5rem var(--pad-x) 0;   /* top padding clears the navbar */
+  pointer-events: none;
+}
+
+.hero-text {
+  font-family: 'Barlow', 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: var(--font-size);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #fff;
+  white-space: nowrap;
+  text-shadow: 0 2px 30px rgba(3, 13, 26, 0.7);
+  will-change: transform, opacity;
+}
+
+/* mask each line slides out of */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding: 0.05em 0.14em 0.16em;
+  margin: -0.05em -0.14em -0.16em;
+}
+.hero-line__inner {
+  display: block;
+  will-change: transform;
+}
+.hero-accent {
+  font-family: 'Instrument Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.12em;
+  letter-spacing: -0.01em;
+  color: #cfe0f5;
+}
+
+/* ---------- address + ISO (sits between the two headline halves) ---------- */
+.hero-meta {
+  margin-block: calc(var(--font-size) * 0.5);
+}
+.hero-meta__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  font-size: clamp(0.78rem, 1.05vw, 0.95rem);
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.88);
+}
+.hero-meta__inner::before {
+  content: '';
+  width: 2.5rem;
+  height: 2px;
+  background: #e53e3e;
+}
+.hero-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.hero-meta__divider {
+  width: 1px;
+  height: 1em;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- PHONES + TABLETS (portrait) ----------
+   Welder centred, headline above and below him,
+   address + ISO at the very bottom. */
+@media (orientation: portrait) {
+  .hero {
+    --stage-w: 160vw;
+    --stage-top: calc(50svh - var(--stage-h) * var(--worker-cy));
+    --stage-right: calc(50% - var(--stage-w) * (1 - var(--worker-cx)));
+    --font-size: 9.4vw;
+    --pad-x: 1.25rem;
+  }
+  .hero-content {
+    grid-template-rows: auto 1fr auto auto;
+    align-content: stretch;
+    justify-items: center;
+    text-align: center;
+    padding: 5.25rem var(--pad-x) 1.75rem;
+  }
+  .hero-text--top { grid-row: 1; }
+  .hero-text--bottom { grid-row: 3; }
+  .hero-meta { grid-row: 4; margin-block: 0.9rem 0; }
+  .hero-meta__inner { justify-content: center; font-size: 0.8rem; }
+  .hero-meta__inner::before,
+  .hero-meta__divider { display: none; }
+}
+
+/* larger portrait screens (iPad etc.) */
+@media (orientation: portrait) and (min-width: 640px) {
+  .hero {
+    --stage-w: 125vw;
+    --font-size: 7.2vw;
+    --pad-x: 2.5rem;
+  }
+  .hero-meta__inner { font-size: 0.9rem; }
+}
+/* =====================================================
+   NAVBAR LOGO TAB  (plain white)
+   Same height as the navbar, pinned to the left edge,
+   slanted right side with a thin red stripe.
+   ===================================================== */
+.logo-tab {
+  --slant: 22px;               /* how far the right edge leans (0px = straight) */
+  --edge: 3px;                 /* thickness of the red stripe (0px = none) */
+  --tab-h: 56px;               /* navbar height after scrolling  (h-14) */
+  --tab-h-tall: 72px;          /* navbar height at top of home page */
+  --h: var(--tab-h);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  height: var(--h);
+  padding: 0 calc(var(--slant) + var(--edge) + 18px) 0 clamp(1rem, 2vw, 1.75rem);
+  transition: height 0.3s ease;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.3));
+}
+.logo-tab--tall { --h: var(--tab-h-tall); }
+
+.logo-tab__shape,
+.logo-tab__edge {
+  position: absolute;
+  inset: 0;
+}
+
+/* white panel */
+.logo-tab__shape {
+  background: #fff;
+  clip-path: polygon(
+    0 0,
+    calc(100% - var(--edge)) 0,
+    calc(100% - var(--slant) - var(--edge)) 100%,
+    0 100%
+  );
+}
+
+/* thin red stripe that follows the slanted edge */
+.logo-tab__edge {
+  background: #e53e3e;
+  clip-path: polygon(
+    calc(100% - var(--edge)) 0,
+    100% 0,
+    calc(100% - var(--slant)) 100%,
+    calc(100% - var(--slant) - var(--edge)) 100%
+  );
+}
+
+.logo-tab__img {
+  position: relative;
+  display: block;
+  height: calc(var(--h) * 0.6);   /* logo = 60% of the navbar height; lower it to shrink further */
+  width: auto;
+  transition: height 0.3s ease;
+}
+
+
+/* =====================================================
+   FULL-PAGE SNAP SCROLLING (Home page only)
+   Toggled via a class on <html> so inner pages like
+   About or Contact scroll normally, unaffected.
+   ===================================================== */
+html.snap-scroll {
+  scroll-snap-type: y mandatory;
+}
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-height: 100svh;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.snap-scroll { scroll-snap-type: none; }
+}
+
+/* =====================================================
+   Hide scrollbar on the clients carousel, without
+   disabling scrolling, dragging, or touch swiping.
+   ===================================================== */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* =====================================================
+   AWARDS MARQUEE
+   Card width is computed from the container's own size
+   (via a CSS container query), not the viewport (vw).
+   This keeps cards correctly sized regardless of page
+   padding, so the row never drifts off-center or crops.
+   ===================================================== */
+.awards-viewport {
+  container-type: inline-size;
+  width: 100%;
+}
+.awards-view {
+  --gap: 1.5rem;
+  --cards: 3;
+  width: 100%;
+}
+.award-card {
+  width: calc((100cqw - var(--gap) * (var(--cards) - 1)) / var(--cards));
+  margin-right: var(--gap);
+}
+@container (max-width: 640px) {
+  .awards-view { --cards: 1; }
+}
+
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-left var(--marquee-duration, 60s) linear infinite;
+  will-change: transform;
+}
+.marquee:hover .marquee__track,
+.marquee:active .marquee__track {
+  animation-play-state: paused;
+}
+@keyframes marquee-left {
+  to { transform: translateX(-50%); }
+}
+
+/* blurred bottom band: fades smoothly from clear (top) to blurred (bottom) */
+.award-blur {
+  -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee__track { animation: none; }
+}
+/* =====================================================
+   TESTIMONIALS: auto-play progress line
+   ===================================================== */
+@keyframes tprogress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.tprogress {
+  animation: tprogress 6s linear forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tprogress { animation: none; }
+}
+
+/* footer: end-align so snap-scrolling can reach its bottom edge */
+.snap-end {
+  scroll-snap-align: end;
+}
+/* smoother scrolling + fewer scroll-jank sources */
+html {
+  scroll-behavior: smooth;
+}
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+}
+/* below-the-fold images decode without blocking the main thread */
+img {
+  content-visibility: auto;
+}
