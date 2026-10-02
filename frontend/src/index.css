@@ -288,24 +288,6 @@
   transition: height 0.3s ease;
 }
 
-
-/* =====================================================
-   FULL-PAGE SNAP SCROLLING (Home page only)
-   Toggled via a class on <html> so inner pages like
-   About or Contact scroll normally, unaffected.
-   ===================================================== */
-html.snap-scroll {
-  scroll-snap-type: y mandatory;
-}
-.snap-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100svh;
-}
-@media (prefers-reduced-motion: reduce) {
-  html.snap-scroll { scroll-snap-type: none; }
-}
-
 /* =====================================================
    Hide scrollbar on the clients carousel, without
    disabling scrolling, dragging, or touch swiping.
@@ -325,22 +307,6 @@ html.snap-scroll {
    This keeps cards correctly sized regardless of page
    padding, so the row never drifts off-center or crops.
    ===================================================== */
-.awards-viewport {
-  container-type: inline-size;
-  width: 100%;
-}
-.awards-view {
-  --gap: 1.5rem;
-  --cards: 3;
-  width: 100%;
-}
-.award-card {
-  width: calc((100cqw - var(--gap) * (var(--cards) - 1)) / var(--cards));
-  margin-right: var(--gap);
-}
-@container (max-width: 640px) {
-  .awards-view { --cards: 1; }
-}
 
 .marquee {
   overflow: hidden;
@@ -385,10 +351,7 @@ html.snap-scroll {
   .tprogress { animation: none; }
 }
 
-/* footer: end-align so snap-scrolling can reach its bottom edge */
-.snap-end {
-  scroll-snap-align: end;
-}
+
 /* smoother scrolling + fewer scroll-jank sources */
 html {
   scroll-behavior: smooth;

@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV_LINKS, PRODUCT_LINKS } from "../data/navLinks";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/logo.webp";
 
 const TRANSPARENT_ROUTES = [
   "/",
   "/about",
   "/software-division",
   "/download",
+   "/products/road-weigh-bridges", 
+    "/products/unmanned-weigh-bridge", 
+      "/products/spare-parts",
+  "/products/on-board-weighing",     
+  "/products/belt-weighing",
+  "/products/bin-tank-weighing", 
 ];
 
 const NAV_HEIGHT = 64;

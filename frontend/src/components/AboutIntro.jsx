@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ImageOff } from 'lucide-react';
-import aboutBuilding from '../assets/about-building.jpg';
-import aboutGate from '../assets/about-gate.jpg';
+import aboutBuilding from '../assets/about-building.webp';
+import aboutGate from '../assets/about-gate.webp';
 
 const EASE = [0.22, 1, 0.36, 1];
-const VIEWPORT = { once: false, amount: 0.3 };
+const VIEWPORT = { once: false, amount: 0.15 };
 
 const PARAGRAPHS = [
   'Digital Weighing Systems (P) Ltd proudly introduces itself as the leading manufacturer of electronic weighing systems from the last 2 decades. We are engaged in manufacturing, exporting and supplying a wide range of Electronic Weighing Machines. We provide the best quality Weighing Machines, which are widely appreciated and accepted in the market for their simple configuration and efficient working.',
@@ -23,7 +23,6 @@ const paraGroup = {
   visible: { transition: { staggerChildren: 0.12, delayChildren: 0.25 } },
 };
 
-// Heading: typewriter, letter by letter, left -> right
 const HEADING_PART1 = 'What is ';
 const HEADING_PART2 = 'DWS?';
 
@@ -36,9 +35,6 @@ const letter = {
   visible: { opacity: 1, transition: { duration: 0.05 } },
 };
 
-// A soft white glow behind the text so it stays readable no matter
-// what part of the photo it lands on — colors stay exactly the same,
-// this only adds contrast/separation from the background.
 const glow = {
   textShadow:
     '0 0 14px rgba(255,255,255,0.95), 0 0 6px rgba(255,255,255,0.95), 0 1px 3px rgba(0,0,0,0.15)',
@@ -77,7 +73,7 @@ function RevealImage({ src, alt, className = '', delay = 0 }) {
 
 export default function AboutIntro() {
   return (
-    <section className="snap-section relative flex flex-col justify-center bg-surface px-0 py-16 sm:py-20">
+    <section className="relative flex flex-col justify-center bg-surface px-0 py-16 sm:py-20">
       <div
         className="pointer-events-none absolute inset-0 opacity-[0.5]"
         style={{
@@ -89,7 +85,7 @@ export default function AboutIntro() {
 
       <div className="container-x relative grid gap-y-8 lg:grid-cols-[380px_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-4">
         <motion.h2
-          className="relative z-20 whitespace-nowrap font-heading leading-none lg:col-start-1 lg:row-start-1 lg:ml-40"
+          className="relative z-20 whitespace-nowrap font-heading leading-none lg:col-start-1 lg:row-start-1"
           style={{ fontSize: 'clamp(2rem, 4.8vw, 3.6rem)' }}
           initial="hidden"
           whileInView="visible"

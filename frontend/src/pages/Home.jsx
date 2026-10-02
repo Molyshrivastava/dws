@@ -7,6 +7,7 @@ import ProductShowcase from "../components/ProductShowcase";
 import OurClients from "../components/OurClients";
 import AwardsShowcase from '../components/AwardsShowcase';
 import Testimonials from '../components/Testimonials';
+import HomeFooterCTA from '../components/HomeFooterCTA';
 export default function Home() {
   useEffect(() => {
     document.documentElement.classList.add("snap-scroll");
@@ -24,6 +25,7 @@ export default function Home() {
       <OurClients/>
       <AwardsShowcase />
       <Testimonials />
+      <HomeFooterCTA />
     </>
   );
 }

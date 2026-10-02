@@ -1,72 +1,24 @@
-import { useRef, useEffect, useState } from "react";
-import industry from "../assets/industry.jpg";
+import { useRef, useEffect, useState } from 'react';
+
+// Finds process-bg.* in src/assets, whatever the extension is. Falls back
+// to a plain navy gradient if the file isn't there yet.
+const bgModules = import.meta.glob('../assets/contact-bg.*', { eager: true, import: 'default' });
+const BG_SRC = Object.values(bgModules)[0] ?? null;
 
 const processSteps = [
-  {
-    no: "01",
-    title: "Customer Order",
-    desc: "The process begins when a customer places an order through the sales team. Customer requirements, product specifications, quantity, delivery requirements and commercial terms are captured."
-  },
-  {
-    no: "02",
-    title: "Order Book",
-    desc: "The confirmed order is recorded with all commercial, technical and delivery information including Product Sales, Spare Orders, Other Services and AMC Orders."
-  },
-  {
-    no: "03",
-    title: "Order Review & Confirmation",
-    desc: "The order is reviewed to confirm technical feasibility, specifications, quantities, delivery commitments and installation requirements."
-  },
-  {
-    no: "04",
-    title: "Order to Execute",
-    desc: "Responsibilities are assigned across departments and the order is released for planning and execution."
-  },
-  {
-    no: "05",
-    title: "Production Planning",
-    desc: "Production Control, Purchases, Planning, Warehouse and Manufacturing coordinate material availability, resources and production schedules."
-  },
-  {
-    no: "06",
-    title: "Raw Material Procurement",
-    desc: "Required raw materials and components are procured and inspected before entering production."
-  },
-  {
-    no: "07",
-    title: "Mechanical Manufacturing",
-    desc: "Mechanical materials undergo inspection, cutting, tack welding, full welding, inspection and assembly."
-  },
-  {
-    no: "08",
-    title: "Electronics & Electrical Assembly",
-    desc: "Electronic cards are assembled, tested and integrated with load cells, indicators and the structural platform."
-  },
-  {
-    no: "09",
-    title: "Testing & Calibration",
-    desc: "Mechanical and electronic assemblies are integrated, calibrated and functionally tested."
-  },
-  {
-    no: "10",
-    title: "Quality Inspection",
-    desc: "Final quality, structural, electronic, functional and documentation checks are completed before dispatch."
-  },
-  {
-    no: "11",
-    title: "Dispatch",
-    desc: "Products are packed, dispatch documentation is completed and shipments are released."
-  },
-  {
-    no: "12",
-    title: "Installation & Commissioning",
-    desc: "The technical team installs, calibrates, tests, commissions and hands over the system."
-  },
-  {
-    no: "13",
-    title: "After-Sales Service",
-    desc: "Customers receive continued support through service, spare parts, AMC and technical assistance."
-  }
+  { no: '01', title: 'Customer Order', desc: 'The process begins when a customer places an order through the sales team. Customer requirements, product specifications, quantity, delivery requirements and commercial terms are captured.' },
+  { no: '02', title: 'Order Book', desc: 'The confirmed order is recorded with all commercial, technical and delivery information including Product Sales, Spare Orders, Other Services and AMC Orders.' },
+  { no: '03', title: 'Order Review & Confirmation', desc: 'The order is reviewed to confirm technical feasibility, specifications, quantities, delivery commitments and installation requirements.' },
+  { no: '04', title: 'Order to Execute', desc: 'Responsibilities are assigned across departments and the order is released for planning and execution.' },
+  { no: '05', title: 'Production Planning', desc: 'Production Control, Purchases, Planning, Warehouse and Manufacturing coordinate material availability, resources and production schedules.' },
+  { no: '06', title: 'Raw Material Procurement', desc: 'Required raw materials and components are procured and inspected before entering production.' },
+  { no: '07', title: 'Mechanical Manufacturing', desc: 'Mechanical materials undergo inspection, cutting, tack welding, full welding, inspection and assembly.' },
+  { no: '08', title: 'Electronics & Electrical Assembly', desc: 'Electronic cards are assembled, tested and integrated with load cells, indicators and the structural platform.' },
+  { no: '09', title: 'Testing & Calibration', desc: 'Mechanical and electronic assemblies are integrated, calibrated and functionally tested.' },
+  { no: '10', title: 'Quality Inspection', desc: 'Final quality, structural, electronic, functional and documentation checks are completed before dispatch.' },
+  { no: '11', title: 'Dispatch', desc: 'Products are packed, dispatch documentation is completed and shipments are released.' },
+  { no: '12', title: 'Installation & Commissioning', desc: 'The technical team installs, calibrates, tests, commissions and hands over the system.' },
+  { no: '13', title: 'After-Sales Service', desc: 'Customers receive continued support through service, spare parts, AMC and technical assistance.' },
 ];
 
 export default function Process() {
@@ -77,182 +29,94 @@ export default function Process() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => setAnimateCards(entry.isIntersecting),
-      { threshold: 0.25 }
+      { threshold: 0.2 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
-
     return () => observer.disconnect();
   }, []);
 
-  // Responsive scroll (one card at a time)
   const getScrollAmount = () => {
     if (!sliderRef.current) return 300;
-
-    const firstCard = sliderRef.current.querySelector(".process-card");
+    const firstCard = sliderRef.current.querySelector('.process-card');
     if (!firstCard) return 300;
-
-    const gap = 24; // gap-6
-    return firstCard.offsetWidth + gap;
+    return firstCard.offsetWidth + 24;
   };
 
-  const slideLeft = () => {
-    sliderRef.current?.scrollBy({
-      left: -getScrollAmount(),
-      behavior: "smooth",
-    });
-  };
-
-  const slideRight = () => {
-    sliderRef.current?.scrollBy({
-      left: getScrollAmount(),
-      behavior: "smooth",
-    });
-  };
+  const slideLeft = () => sliderRef.current?.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+  const slideRight = () => sliderRef.current?.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden snap-section"
-    >
-      {/* Background */}
-      <div
-        className="absolute inset-0 scale-110 bg-cover bg-center bg-no-repeat blur-md"
-        style={{ backgroundImage: `url(${industry})` }}
-      />
+    <section ref={sectionRef} className="relative w-full overflow-hidden py-16 sm:py-20">
+      {/* background */}
+      <div className="absolute inset-0" aria-hidden="true">
+        {BG_SRC ? (
+          <div
+            className="absolute inset-0 scale-110 bg-cover bg-center bg-no-repeat blur-md"
+            style={{ backgroundImage: `url(${BG_SRC})` }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-900 to-primary-700" />
+        )}
+        <div className="absolute inset-0 bg-primary-900/55" />
+      </div>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/45" />
-
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 h-40 w-full bg-gradient-to-t from-black/70 to-transparent" />
-
-      <div className="relative z-10 flex h-full flex-col justify-center px-6 md:px-10 lg:px-16">
-
-        {/* Heading */}
-        <div className="max-w-3xl">
-          <p className="mb-3 text-xs sm:text-sm uppercase tracking-[0.35em] text-white/80">
+      <div className="relative z-10 px-4 sm:px-6 lg:px-10">
+        {/* heading */}
+        <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
+          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-white/75 sm:text-sm">
             From Order to Delivery
           </p>
-
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-white">
+          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Our Process
-          </h1>
-
-          <p className="mt-5 max-w-2xl text-base sm:text-lg leading-relaxed text-white/80">
-            Every weighing solution follows a carefully planned workflow that
-            ensures precision, quality and reliability at every stage—from the
-            initial customer order to successful installation and continued
-            support.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base lg:mx-0">
+            Every weighing solution follows a carefully planned workflow that ensures precision,
+            quality and reliability at every stage — from the initial customer order to
+            installation and continued support.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="relative mt-12 lg:mt-16">
-
-          {/* Left Arrow */}
+        {/* cards */}
+        <div className="relative mt-10 lg:mt-14">
           <button
             onClick={slideLeft}
-            className="absolute -left-1 sm:-left-2 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-white/8 backdrop-blur-xl text-white transition-all duration-300 hover:scale-110 hover:bg-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.35)]"
+            aria-label="Previous steps"
+            className="absolute -left-1 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 hover:bg-white/20 sm:flex"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-
-          {/* Right Arrow */}
           <button
             onClick={slideRight}
-            className="absolute -right-1 sm:-right-2 top-1/2 z-30 -translate-y-1/2 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full border border-white/15 bg-white/8 backdrop-blur-xl text-white transition-all duration-300 hover:scale-110 hover:bg-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.35)]"
+            aria-label="Next steps"
+            className="absolute -right-1 top-1/2 z-30 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-accent text-white shadow-card transition-transform duration-300 hover:scale-110 sm:flex"
           >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 5l7 7-7 7"
-              />
+            <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
-          {/* Slider */}
           <div
             ref={sliderRef}
-            className="flex gap-6 overflow-x-scroll scroll-smooth px-4 sm:px-6"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-            }}
+            className="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth px-2 sm:gap-6 sm:px-10"
           >
             {processSteps.map((step, index) => (
               <div
                 key={`${animateCards}-${index}`}
-                className={`process-card group flex-shrink-0
-                  w-[240px] sm:w-[260px] md:w-[280px] lg:w-72
-                  h-48 hover:h-80
-                  rounded-3xl border border-white/15
-                  bg-white/8 backdrop-blur-2xl
-                  shadow-[0_20px_60px_rgba(0,0,0,0.35)]
-                  p-6 sm:p-7 overflow-hidden
-                  transition-[height,transform] duration-500 hover:-translate-y-2
-                  ${
-                    animateCards
-                      ? "animate-[slideInRight_0.8s_cubic-bezier(0.22,1,0.36,1)_forwards]"
-                      : "opacity-0"
-                  }`}
-                style={{
-                  animationDelay: `${index * 120}ms`,
-                }}
+                className={`process-card group h-52 w-[210px] shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-primary-800/70 to-primary-900/70 p-5 shadow-card backdrop-blur-xl transition-[height,transform] duration-500 hover:-translate-y-1 hover:h-72 sm:w-[240px] sm:p-6 md:w-[260px] lg:h-56 lg:w-72 lg:hover:h-80 ${
+                  animateCards ? 'animate-[processIn_0.7s_cubic-bezier(0.22,1,0.36,1)_forwards]' : 'opacity-0'
+                }`}
+                style={{ animationDelay: `${Math.min(index, 8) * 90}ms` }}
               >
-                <span className="text-xs tracking-[0.35em] text-white/60">
-                  {step.no}
-                </span>
-
-                <h3 className="mt-4 text-2xl sm:text-3xl font-semibold leading-tight text-white">
-                  {step.title}
-                </h3>
-
-                <div className="mt-6 translate-y-6 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
-                  <p className="text-sm leading-7 text-white/80">
-                    {step.desc}
-                  </p>
+                <span className="text-xs font-semibold tracking-[0.3em] text-accent">{step.no}</span>
+                <h3 className="mt-3 text-xl font-bold leading-tight text-white sm:text-2xl">{step.title}</h3>
+                <div className="mt-4 max-h-0 translate-y-4 opacity-0 transition-all duration-500 group-hover:max-h-40 group-hover:translate-y-0 group-hover:opacity-100">
+                  <p className="text-sm leading-relaxed text-white/80">{step.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-
-          <style>{`
-            div::-webkit-scrollbar{
-              display:none;
-            }
-
-            @keyframes slideInRight{
-              from{
-                opacity:0;
-                transform:translateX(120px);
-              }
-              to{
-                opacity:1;
-                transform:translateX(0);
-              }
-            }
-          `}</style>
-
         </div>
       </div>
     </section>

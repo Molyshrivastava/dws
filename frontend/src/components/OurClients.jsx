@@ -2,24 +2,24 @@ import { useEffect, useRef, useState } from 'react';
 import { animate, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-import client1 from '../assets/client1.png';
-import client2 from '../assets/client2.png';
-import client3 from '../assets/client3.png';
-import client4 from '../assets/client4.png';
-import client5 from '../assets/client5.png';
-import client6 from '../assets/client6.png';
-import client7 from '../assets/client7.png';
-import client8 from '../assets/client8.png';
-import client9 from '../assets/client9.png';
-import client10 from '../assets/client10.png';
-import client11 from '../assets/client11.jpg';
-import client12 from '../assets/client12.png';
-import client13 from '../assets/client13.png';
-import client14 from '../assets/client14.png';
-import client15 from '../assets/client15.png';
-import client16 from '../assets/client16.jpeg';
-import client17 from '../assets/client17.jpeg';
-import client18 from '../assets/client18.png';
+import client1 from '../assets/client1.webp';
+import client2 from '../assets/client2.webp';
+import client3 from '../assets/client3.webp';
+import client4 from '../assets/client4.webp';
+import client5 from '../assets/client5.webp';
+import client6 from '../assets/client6.webp';
+import client7 from '../assets/client7.webp';
+import client8 from '../assets/client8.webp';
+import client9 from '../assets/client9.webp';
+import client10 from '../assets/client10.webp';
+import client11 from '../assets/client11.webp';
+import client12 from '../assets/client12.webp';
+import client13 from '../assets/client13.webp';
+import client14 from '../assets/client14.webp';
+import client15 from '../assets/client15.webp';
+import client16 from '../assets/client16.webp';
+import client17 from '../assets/client17.webp';
+import client18 from '../assets/client18.webp';
 
 // ---- Edit clients here: image, name, description ----
 const CLIENTS = [
