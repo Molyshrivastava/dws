@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 
-const bgModules = import.meta.glob('../assets/process-bg.*', { eager: true, import: 'default' });
+const bgModules = import.meta.glob('../assets/contact-bg.*', { eager: true, import: 'default' });
 const BG_SRC = Object.values(bgModules)[0] ?? null;
 
 const processSteps = [
