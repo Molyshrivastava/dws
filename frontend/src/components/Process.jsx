@@ -1,8 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 
-// Finds process-bg.* in src/assets, whatever the extension is. Falls back
-// to a plain navy gradient if the file isn't there yet.
-const bgModules = import.meta.glob('../assets/contact-bg.*', { eager: true, import: 'default' });
+const bgModules = import.meta.glob('../assets/process-bg.*', { eager: true, import: 'default' });
 const BG_SRC = Object.values(bgModules)[0] ?? null;
 
 const processSteps = [
@@ -25,6 +23,7 @@ export default function Process() {
   const sliderRef = useRef(null);
   const sectionRef = useRef(null);
   const [animateCards, setAnimateCards] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null); // tap-to-expand, for touch screens
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,15 +38,16 @@ export default function Process() {
     if (!sliderRef.current) return 300;
     const firstCard = sliderRef.current.querySelector('.process-card');
     if (!firstCard) return 300;
-    return firstCard.offsetWidth + 24;
+    return firstCard.offsetWidth + 16;
   };
 
   const slideLeft = () => sliderRef.current?.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
   const slideRight = () => sliderRef.current?.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
 
+  const toggleCard = (i) => setOpenIndex((cur) => (cur === i ? null : i));
+
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden py-16 sm:py-20">
-      {/* background */}
+    <section ref={sectionRef} className="relative w-full overflow-hidden py-12 sm:py-16 lg:py-20">
       <div className="absolute inset-0" aria-hidden="true">
         {BG_SRC ? (
           <div
@@ -63,21 +63,22 @@ export default function Process() {
       <div className="relative z-10 px-4 sm:px-6 lg:px-10">
         {/* heading */}
         <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
-          <p className="mb-3 text-xs uppercase tracking-[0.3em] text-white/75 sm:text-sm">
+          <p className="mb-2.5 text-[0.65rem] uppercase tracking-[0.25em] text-white/75 sm:mb-3 sm:text-xs lg:text-sm">
             From Order to Delivery
           </p>
-          <h2 className="text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="text-2xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
             Our Process
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base lg:mx-0">
+          <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-white/80 sm:mt-4 sm:text-base lg:mx-0">
             Every weighing solution follows a carefully planned workflow that ensures precision,
             quality and reliability at every stage — from the initial customer order to
             installation and continued support.
           </p>
+          <p className="mt-2 text-xs text-white/50 sm:hidden">Tap a card to read more</p>
         </div>
 
         {/* cards */}
-        <div className="relative mt-10 lg:mt-14">
+        <div className="relative mt-8 sm:mt-10 lg:mt-14">
           <button
             onClick={slideLeft}
             aria-label="Previous steps"
@@ -99,23 +100,35 @@ export default function Process() {
 
           <div
             ref={sliderRef}
-            className="no-scrollbar flex gap-4 overflow-x-auto scroll-smooth px-2 sm:gap-6 sm:px-10"
+            className="no-scrollbar flex items-start gap-3 overflow-x-auto scroll-smooth px-1 pb-2 sm:gap-4 sm:px-2 lg:gap-6 lg:px-10"
           >
-            {processSteps.map((step, index) => (
-              <div
-                key={`${animateCards}-${index}`}
-                className={`process-card group h-52 w-[210px] shrink-0 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-primary-800/70 to-primary-900/70 p-5 shadow-card backdrop-blur-xl transition-[height,transform] duration-500 hover:-translate-y-1 hover:h-72 sm:w-[240px] sm:p-6 md:w-[260px] lg:h-56 lg:w-72 lg:hover:h-80 ${
-                  animateCards ? 'animate-[processIn_0.7s_cubic-bezier(0.22,1,0.36,1)_forwards]' : 'opacity-0'
-                }`}
-                style={{ animationDelay: `${Math.min(index, 8) * 90}ms` }}
-              >
-                <span className="text-xs font-semibold tracking-[0.3em] text-accent">{step.no}</span>
-                <h3 className="mt-3 text-xl font-bold leading-tight text-white sm:text-2xl">{step.title}</h3>
-                <div className="mt-4 max-h-0 translate-y-4 opacity-0 transition-all duration-500 group-hover:max-h-40 group-hover:translate-y-0 group-hover:opacity-100">
-                  <p className="text-sm leading-relaxed text-white/80">{step.desc}</p>
+            {processSteps.map((step, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={`${animateCards}-${index}`}
+                  onClick={() => toggleCard(index)}
+                  className={`process-card group w-[160px] shrink-0 cursor-pointer overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-primary-800/70 to-primary-900/70 p-4 shadow-card backdrop-blur-xl transition-[height,transform] duration-500 hover:-translate-y-1 sm:w-[220px] sm:p-5 sm:hover:h-72 md:w-[250px] lg:w-72 lg:p-6 lg:hover:h-80 ${
+                    isOpen ? 'h-auto' : 'h-[150px] sm:h-52 lg:h-56'
+                  } ${animateCards ? 'animate-[processIn_0.7s_cubic-bezier(0.22,1,0.36,1)_forwards]' : 'opacity-0'}`}
+                  style={{ animationDelay: `${Math.min(index, 8) * 90}ms` }}
+                >
+                  <span className="text-[0.65rem] font-semibold tracking-[0.25em] text-accent sm:text-xs sm:tracking-[0.3em]">
+                    {step.no}
+                  </span>
+                  <h3 className="mt-2 text-base font-bold leading-tight text-white sm:mt-3 sm:text-xl lg:text-2xl">
+                    {step.title}
+                  </h3>
+                  <div
+                    className={`mt-3 max-h-0 translate-y-3 opacity-0 transition-all duration-500 sm:group-hover:max-h-40 sm:group-hover:translate-y-0 sm:group-hover:opacity-100 ${
+                      isOpen ? 'max-h-40 translate-y-0 opacity-100 sm:max-h-0 sm:translate-y-3 sm:opacity-0' : ''
+                    }`}
+                  >
+                    <p className="text-xs leading-relaxed text-white/80 sm:text-sm">{step.desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
