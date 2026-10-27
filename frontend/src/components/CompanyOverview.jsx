@@ -1,27 +1,28 @@
 import { motion } from 'framer-motion';
-import { Award, Building2, Factory, MapPin, Users, Zap } from 'lucide-react';
+import { Award, Clock, MapPin, ShieldCheck, Train, Users } from 'lucide-react';
 
 const EASE = [0.22, 1, 0.36, 1];
 const VIEWPORT = { once: false, amount: 0.1 };
 
 const INTRO =
-  'Digital Weighing Systems (P) Limited, headquartered in Bilaspur, Chhattisgarh, was founded in 1994 with more than 25 years of experience in manufacturing, servicing, importing and exporting all types of weighing scales worldwide. With a great team of management and more than 200 professional engineers and technicians with vast experience in the field of weighing, we are one of the fastest-growing companies in the industry.';
+  'Digital Weighing Systems (P) Limited, headquartered in Bilaspur, Chhattisgarh, was founded in 1994 with more than 30 years of experience in manufacturing, servicing, importing and exporting all types of weighing scales worldwide. With a great team of management and more than 200 professional engineers and technicians with vast experience in the field of weighing, we are one of the fastest-growing companies in the industry.';
 
 const HIGHLIGHT =
   'Digital is the first Indian company to get the credit of developing "Indigenous In-Motion Railway Weighbridges" without any foreign technical collaboration.';
 
 const PARAGRAPHS = [
   'The integrated manufacturing unit located in the industrial area of Tifra, Bilaspur (C.G.) is the only one of its kind in India. Our most advanced research and development centre is located at Chennai, which is the axis behind the development of our sophisticated systems and instrumentation — among the best in the international weighing industry.',
-  'Digital has 28 branches nationwide, helping us deliver better after-sales service, one of our greatest strengths. Digital Weighing Systems continuously works towards developing our products with the latest technology, and aims for the future to be recognised as the weighing experts throughout the world.',
+  'Digital has 30+ service locations nationwide, helping us deliver better after-sales service, one of our greatest strengths. Digital Weighing Systems continuously works towards developing our products with the latest technology, and aims for the future to be recognised as the weighing experts throughout the world.',
 ];
 
+// "DWS by the Numbers" — confirmed figures
 const STATS = [
-  { icon: Building2, value: '1994', label: 'Year founded' },
-  { icon: Zap, value: '25+ yrs', label: 'Industry experience' },
-  { icon: Users, value: '200+', label: 'Engineers & technicians' },
-  { icon: MapPin, value: '28', label: 'Branches nationwide' },
-  { icon: Factory, value: 'Tifra', label: 'Manufacturing unit' },
-  { icon: Award, value: 'Chennai', label: 'R&D centre' },
+  { icon: Award, value: '30+', label: 'Years in weighing' },
+  { icon: ShieldCheck, value: '1000+', label: 'Road & rail weighbridges maintained' },
+  { icon: Users, value: '200+', label: 'Field engineers & technicians' },
+  { icon: MapPin, value: '30+', label: 'Service locations' },
+  { icon: Train, value: '~40% / ~90%', label: 'Indian Railways / Coal India weighment on DWS systems' },
+  { icon: Clock, value: '90%+', label: 'Uptime, response within 12 hrs' },
 ];
 
 const dropIn = {
@@ -65,7 +66,7 @@ export default function CompanyOverview() {
             {INTRO}
           </motion.p>
 
-          <motion.div variants={dropIn} className="my-6 rounded-xl border-l-4 border-accent bg-white/10 p-5 backdrop-blur-sm">
+          <motion.div variants={dropIn} className="my-6 rounded-xl border-l-4 border-accent bg-primary-900/45 p-5">
             <p className="text-base font-medium leading-relaxed text-white sm:text-lg">{HIGHLIGHT}</p>
           </motion.div>
 

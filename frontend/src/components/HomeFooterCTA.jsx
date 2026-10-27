@@ -52,9 +52,9 @@ export default function HomeFooterCTA() {
             <Link to="/contact" className="btn-accent flex-1 justify-center sm:flex-none">
               Request a Quote <ArrowUpRight size={16} />
             </Link>
-            <a href="tel:+917752252097" className="btn flex-1 justify-center border-2 border-white/30 text-white hover:border-white hover:bg-white hover:text-primary sm:flex-none">
-              <Phone size={16} /> Call Us
-            </a>
+            <a href="tel:+18008896790" className="btn flex-1 justify-center border-2 border-white/30 text-white hover:border-white hover:bg-white hover:text-primary sm:flex-none">
+  <Phone size={16} /> Call 1800-889-6790
+</a>
           </div>
         </motion.div>
 

@@ -4,12 +4,8 @@ import { Award, Cpu, MapPinned, ShieldCheck, Sparkles, Target } from 'lucide-rea
 const EASE = [0.22, 1, 0.36, 1];
 const VIEWPORT = { once: false, amount: 0.15 };
 
-// Extracted verbatim from your Overview text
-const VISION = 'To be recognized as the weighing experts throughout the world.';
-// Extracted verbatim from your Quality Policy text
-const MISSION =
-  'To provide our customers with a weighing solution relevant to their needs and that will sustain value-added benefits.';
-
+const VISION = 'To retain our leadership in rail in-motion and road weighbridges in India, and become a preferred supplier of industrial weighing machines worldwide.';
+const MISSION = "To continuously improve our products and services through innovation, technology integration and customer feedback, extend our reach into new industries and geographies, and build a culture of innovation that adds value to every customer's operation.";
 const ACHIEVEMENTS = [
   {
     icon: Cpu,

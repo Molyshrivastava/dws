@@ -57,8 +57,8 @@ export default function Hero() {
   return (
    <section ref={ref} className="hero snap-section" aria-label="Digital Weighing Systems">
       <h1 className="sr-only">
-        Digital Weighing Systems (P) Ltd - Built on precision, trusted for decades
-      </h1>
+  Weighbridge Manufacturer in India — Complete Weighing Solutions Under One Roof
+</h1>
 
       {/* background photo (feathered edges) */}
       <motion.div
